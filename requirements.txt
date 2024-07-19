@@ -1,0 +1,9 @@
+selenium
+openpyxl
+pyautogui
+pyperclip
+requests
+pandas
+pyinstaller
+cryptography
+mysql-connector-python
