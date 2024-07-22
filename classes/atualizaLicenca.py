@@ -94,3 +94,23 @@ class AtualizaLicenca:
             print(f"Erro inesperado: {e}")
             return False
 #endregion
+
+
+#region destructors
+    def __del__(self):
+        if self.salva_dados:
+            self.salva_dados.close()
+        if self.plataforma:
+            self.plataforma.fecha_navegador()
+        if self.banco:
+            self.banco = None
+        if self.config:
+            self.config = None
+        if self.criptografia:
+            self.criptografia = None
+        if self.user:
+            self.user = None
+        print("Objeto de atualização de licença destruído")
+        
+        
+#endregion
