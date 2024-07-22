@@ -1,5 +1,4 @@
-
-# Atualiza licenças
+# Projeto Exemplo
 
 Este é um projeto exemplo que demonstra como criar um ambiente virtual Python (`venv`) e instalar as dependências listadas em um arquivo `requirements.txt`.
 
@@ -57,7 +56,34 @@ pip install -r requirements.txt
 
 Isso instalará todos os pacotes necessários para o projeto.
 
-### 5. Desativar o Ambiente Virtual
+### 5. Configurar o Arquivo de Configuração
+
+Crie um arquivo de configuração chamado `configHomolog.json` no diretório `config` (ou o diretório apropriado conforme seu projeto). O conteúdo do arquivo deve ser conforme o exemplo abaixo:
+
+```json
+{
+        "Descrição": "Arquivo de produção",
+        "zantus_user": {
+            "username": "seu login no site",
+            "password": "sua senha"
+        },
+        "url_manager": {
+            "description": "Site Zanthus",
+            "title": "Zantus Manager <homolog ou prod>",
+            "url": "url- destino"
+        },
+        "banco de dados": {
+            "host": "endereço do banco",
+            "user": "usuário do banco",
+            "password": "senha do banco",
+            "database": "nome do banco"
+        }
+}
+```
+
+Certifique-se de substituir os valores com as informações reais do seu ambiente.
+
+### 6. Desativar o Ambiente Virtual
 
 Quando terminar de trabalhar no projeto, você pode desativar o ambiente virtual com o seguinte comando:
 
@@ -96,7 +122,30 @@ deactivate
     pip install -r requirements.txt
     ```
 
-4. Desativar o ambiente virtual:
+4. Configurar o arquivo de configuração (`configHomolog.json`):
+
+    ```json
+    {
+        "Descrição": "Arquivo de produção",
+        "zantus_user": {
+            "username": "seu login no site",
+            "password": "sua senha"
+        },
+        "url_manager": {
+            "description": "Site Zanthus",
+            "title": "Zantus Manager <homolog ou prod>",
+            "url": "url- destino"
+        },
+        "banco de dados": {
+            "host": "endereço do banco",
+            "user": "usuário do banco",
+            "password": "senha do banco",
+            "database": "nome do banco"
+        }
+    }
+    ```
+
+5. Desativar o ambiente virtual:
 
     ```bash
     deactivate
@@ -113,3 +162,6 @@ deactivate
 
 Isso garantirá que todos os pacotes usados no seu ambiente de desenvolvimento estejam listados.
 
+---
+
+Com esses passos, você estará pronto para configurar e utilizar um ambiente virtual Python para gerenciar as dependências do seu projeto de forma isolada e organizada. Se precisar de mais alguma ajuda, sinta-se à vontade para perguntar!
