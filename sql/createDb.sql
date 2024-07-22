@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `zanthus`.`monitoramento` (
   `descricao` VARCHAR(45) NOT NULL,
   `status` VARCHAR(45) NOT NULL,
   `numero_de_dias` INT NOT NULL,
-  `id_atualizacao` INT NULL DEFAULT NULL,
+  `id_atualizacao` INT DEFAULT NULL,
   PRIMARY KEY (`id_monitoramento`),
   UNIQUE INDEX `idmonitoramento_UNIQUE` (`id_monitoramento` ASC) VISIBLE,
   INDEX `id_atualizacao_idx` (`id_atualizacao` ASC) VISIBLE,
