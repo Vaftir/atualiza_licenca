@@ -3,15 +3,17 @@ from classes.SalvaDados import SalvaDados
 from modules.config.ConfigHandler import ConfigHandler
 from modules.criptografia.encripta import Criptografia
 
+import time
+
 class AtualizaLicenca:
 
-    #region Construtores
-    def __init__(self, licenca):
-        self.licenca = licenca
+#region Construtores
+    def __init__(self):
         self.config = self._load_config("config/configHomolog.json")
         self.criptografia = Criptografia()
         self.banco = self._setup_banco() if self.config else None
         self.user = self._setup_user() if self.config else None
+        self.salva_dados = SalvaDados(self.banco) if self.banco else None
         self.plataforma = self._setup_plataforma() if self.user else None
 
     def _load_config(self, config_path):
@@ -46,19 +48,49 @@ class AtualizaLicenca:
             print("Erro ao obter URL do site")
             return None
         return PlataformaAcesso(self.user["username"], self.user["password"], site["url"])
-    #endregion
+#endregion
 
-    #region Métodos Públicos
+#region Métodos Privados
+    def verifica_retorno(self, resultado):
+        # Dicionário que mapeia mensagens específicas a seus respectivos status
+        mensagens = {
+            "Para que as atualizações entrem em vigor, é necessário refazer o login": "SUCCESS",
+            "Licença atualizada com restrições": "WARNING"
+        }
+
+        encontrou_mensagem = False  # Flag para verificar se alguma mensagem conhecida foi encontrada
+
+        # Itera sobre cada par (mensagem, status) no dicionário
+        for mensagem, status in mensagens.items():
+            # Se a mensagem atual está presente no resultado
+            if mensagem in resultado:
+                self.salva_dados.salvar(resultado, status)  # Salva o resultado com o status correspondente
+                encontrou_mensagem = True  # Marca que encontramos pelo menos uma mensagem
+                break
+
+        # Se nenhuma mensagem conhecida foi encontrada no resultado
+        if not encontrou_mensagem:
+            self.salva_dados.salvar(resultado, "ERROR")  # Salva o resultado com o status "ERROR"
+
+#endregion
+
+#region Métodos Públicos
     def atualiza_licenca(self):
         if not self.plataforma:
             print("Erro ao acessar plataforma")
             return False
         try:
             self.plataforma.faz_login()
-            self.plataforma.atualiza_licenca()
+            self.plataforma.barra_de_pesquisa(texto="Administração de licenças", input_id="menu-search")
+            self.plataforma.clica_em_botao(xpath="/html/body/div[1]/aside/div/section/ul/li[5]/ul/li[4]")
+            self.plataforma.clica_em_botao(button_id="BTN_LICENCA_UPDATE_MANAGER")
+            resultado = self.plataforma.trata_popup(element_id="alert_message_internal")
+            self.verifica_retorno(resultado)
+            self.plataforma.scroll()
+           # self.plataforma.atualiza_licenca()
             self.plataforma.fecha_navegador()
             return True
         except Exception as e:
             print(f"Erro inesperado: {e}")
             return False
-    #endregion
+#endregion

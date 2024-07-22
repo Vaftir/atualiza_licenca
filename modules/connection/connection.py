@@ -63,3 +63,13 @@ class Connection:
         else:
             print("No connection to close")
             return False
+
+
+'''
+# Exemplo de uso da classe de conexão
+# Importando a classe de conexão
+from connection import Connection
+
+# Criando uma instância da classe de conexão
+connection = Connection("localhost",
+'''

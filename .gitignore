@@ -1,2 +1,9 @@
 venv
-config/
+config/*
+classes/__pycache__
+modules/__pycache__
+modules/config/__pycache__
+modules/connection/__pycache__/connection.cpython-312.pyc
+classes/__pycache__/PlataformaAcesso.cpython-312.pyc
+classes/__pycache__/PlataformaAcesso.cpython-312.pyc
+modules/connection/__pycache__/connection.cpython-312.pyc

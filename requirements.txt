@@ -7,3 +7,6 @@ pandas
 pyinstaller
 cryptography
 mysql-connector-python
+bs4
+requests
+BeautifulSoup4
