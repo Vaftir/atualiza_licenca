@@ -64,13 +64,13 @@ class AtualizaLicenca:
         for mensagem, status in mensagens.items():
             # Se a mensagem atual está presente no resultado
             if mensagem in resultado:
-                self.salva_dados.salvar(resultado, status)  # Salva o resultado com o status correspondente
+                self.salva_dados.salvar(texto=resultado, status=status,flag=True)  # Salva o resultado com o status correspondente
                 encontrou_mensagem = True  # Marca que encontramos pelo menos uma mensagem
                 break
 
         # Se nenhuma mensagem conhecida foi encontrada no resultado
         if not encontrou_mensagem:
-            self.salva_dados.salvar(resultado, "ERROR")  # Salva o resultado com o status "ERROR"
+            self.salva_dados.salvar(texto=resultado, status="ERROR", flag=True)  # Salva o resultado com o status "ERROR"
 
 #endregion
 
@@ -99,7 +99,7 @@ class AtualizaLicenca:
 #region destructors
     def __del__(self):
         if self.salva_dados:
-            self.salva_dados.close()
+            self.salva_dados.__del__()
         if self.plataforma:
             self.plataforma.fecha_navegador()
         if self.banco:

@@ -17,7 +17,7 @@ class SalvaDados:
     # endregion
 
     # region Métodos Privados para Salvar Dados
-    def _salvar(self, status, texto):
+    def _salvarAtualizacao(self, status, texto):
         """Método genérico para salvar dados no banco de dados."""
         data = time.strftime('%Y-%m-%d %H:%M:%S')  # Obtém a data e hora atual
         query = f"INSERT INTO atualizacao (status, data, texto) VALUES ('{status}', '{data}', '{texto}')"
@@ -31,33 +31,36 @@ class SalvaDados:
 
     def _salva_sucesso(self, texto):
         """Salva uma mensagem de sucesso."""
-        return self._salvar('SUCCESS', texto)
+        return self._salvarAtualizacao('SUCCESS', texto)
     
     def _salva_erro(self, texto):
         """Salva uma mensagem de erro."""
         if not texto:
             texto = "Erro não especificado"
-        return self._salvar('ERROR', texto)
+        return self._salvarAtualizacao('ERROR', texto)
     
     def _salva_aviso(self, texto):
         """Salva uma mensagem de aviso."""
-        return self._salvar('WARNING', texto)
+        return self._salvarAtualizacao('WARNING', texto)
 
     # endregion
 
     # region Métodos Públicos
-    def salvar(self, texto, status):
+    def salvar(self, texto, status, flag , dados=None):
         """Salva o texto com base no status fornecido."""
-        if status == "SUCCESS":
-            return self._salva_sucesso(texto)
-        elif status == "ERROR":
-            return self._salva_erro(texto)
-        elif status == "WARNING":
-            return self._salva_aviso(texto)
+        if flag:
+            if status == "SUCCESS":
+                return self._salva_sucesso(texto)
+            elif status == "ERROR":
+                return self._salva_erro(texto)
+            elif status == "WARNING":
+                return self._salva_aviso(texto)
+            else:
+                print("Status inválido")
+                return False
         else:
-            print("Status inválido")
+            print("Não foi possível salvar os dados")
             return False
-
     # endregion
 
     # region Destrutor
