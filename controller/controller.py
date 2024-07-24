@@ -2,15 +2,17 @@
 
 # Importa as classes necessárias
 from classes.atualizaLicenca import AtualizaLicenca
-
+from classes.monitoraLicenca import MonitoraLicenca
 class Controller:
 
     def __init__(self):
         self.atualiza_licenca = AtualizaLicenca()  # Instância da classe AtualizaLicenca
-    
+        self.monitora_licenca = MonitoraLicenca()
+
     def run(self):
         try:
-            self.atualiza_licenca.atualiza_licenca()  # Chama o método atualiza_licenca
+            self.monitora_licenca.monitora_licenca()
+            # self.atualiza_licenca.atualiza_licenca()
             return True
         except Exception as e:
             print(f"Erro inesperado: {e}")

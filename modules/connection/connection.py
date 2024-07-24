@@ -1,19 +1,15 @@
-# Importando os módulos necessários
 import mysql.connector
 from mysql.connector import Error
 
-# Definindo a classe de conexão
 class Connection:
     def __init__(self, host, database, user, password):
-        self.connection = None  # Inicializando a variável de conexão como nula
-        self.cursor = None  # Inicializando o cursor como nulo
-
+        self.connection = None
+        self.cursor = None
         self.host = host
         self.database = database
         self.user = user
         self.password = password
 
-    # Método para estabelecer a conexão com o banco de dados
     def connect(self):
         try:
             self.connection = mysql.connector.connect(
@@ -23,41 +19,57 @@ class Connection:
                 database=self.database
             )
             self.cursor = self.connection.cursor()
-            print("Connected to MySQL database")  # Mensagem de sucesso
+            print("Connected to MySQL database")
             return True
         except Error as e:
-            print(f"The error '{e}' occurred")  # Mensagem de erro em caso de falha na conexão
+            print(f"The error '{e}' occurred")
             return False
 
-    # Método para executar uma consulta (INSERT, UPDATE, DELETE)
     def execute_query(self, query, params=None):
         try:
-            self.cursor.execute(query, params)  # Executa a consulta com parâmetros
-            self.connection.commit()  # Confirma as alterações no banco de dados
-            print("Query executed successfully")  # Mensagem de sucesso
+            self.cursor.execute(query, params)
+            self.connection.commit()
+            print("Query executed successfully")
             return True
         except Error as e:
-            print(f"The error '{e}' occurred")  # Mensagem de erro em caso de falha na execução da consulta
+            print(f"The error '{e}' occurred")
             return False
 
-    # Método para executar uma consulta de leitura (SELECT)
     def execute_read_query(self, query, params=None):
         result = None
         try:
-            self.cursor.execute(query, params)  # Executa a consulta de leitura com parâmetros
-            result = self.cursor.fetchall()  # Obtém todos os resultados da consulta
-            return result  # Retorna os resultados
+            self.cursor.execute(query, params)
+            result = self.cursor.fetchall()
+            return result
         except Error as e:
-            print(f"The error '{e}' occurred")  # Mensagem de erro em caso de falha na execução da consulta
+            print(f"The error '{e}' occurred")
             return result
 
-    # Método para desconectar do banco de dados
     def disconnect(self):
         if self.connection is not None and self.connection.is_connected():
-            self.cursor.close()  # Fecha o cursor
-            self.connection.close()  # Fecha a conexão
-            print("Connection closed")  # Mensagem de sucesso ao fechar a conexão
+            self.cursor.close()
+            self.connection.close()
+            print("Connection closed")
             return True
         else:
             print("No connection to close")
             return False
+
+    def __enter__(self):
+        if self.connect():
+            return self
+        else:
+            raise Exception("Failed to connect to the database")
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.disconnect()
+
+
+'''
+# Exemplo de uso da classe de conexão
+# Importando a classe de conexão
+from connection import Connection
+
+# Criando uma instância da classe de conexão
+connection = Connection("localhost",
+'''

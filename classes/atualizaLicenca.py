@@ -80,9 +80,9 @@ class AtualizaLicenca:
             print("Erro ao acessar plataforma")
             return False
         try:
-            self.plataforma.faz_login()
-            self.plataforma.barra_de_pesquisa(texto="Administração de licenças", input_id="menu-search")
-            self.plataforma.clica_em_botao(xpath="/html/body/div[1]/aside/div/section/ul/li[5]/ul/li[4]")
+            # self.plataforma.faz_login()
+            # self.plataforma.barra_de_pesquisa(texto="Administração de licenças", input_id="menu-search")
+            # self.plataforma.clica_em_botao(xpath="/html/body/div[1]/aside/div/section/ul/li[5]/ul/li[4]")
             self.plataforma.clica_em_botao(button_id="BTN_LICENCA_UPDATE_MANAGER")
             resultado = self.plataforma.trata_popup(element_id="alert_message_internal")
             self.verifica_retorno(resultado)
@@ -98,8 +98,6 @@ class AtualizaLicenca:
 
 #region destructors
     def __del__(self):
-        if self.salva_dados:
-            self.salva_dados.__del__()
         if self.plataforma:
             self.plataforma.fecha_navegador()
         if self.banco:

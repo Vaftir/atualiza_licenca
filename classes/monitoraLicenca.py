@@ -17,7 +17,7 @@ class MonitoraLicenca(AtualizaLicenca):
         # Itera sobre cada dicionário de dados passado como argumento
         for dado in dados:
             # Verifica se a chave 'licenca' no dicionário atual é igual a '16 dias'
-            if dado['licenca'] == '16 dias':
+            if dado['num_dias'] <= 16:
                 # Se encontrar uma licença com 16 dias, marca a flag licenca_atualizada como False e retorna
                 
                 return False
@@ -29,8 +29,8 @@ class MonitoraLicenca(AtualizaLicenca):
         return True
     
     def _salva_dados(self, dados):
-        self.salva_dados.salvar(texto=dados, status="SUCCESS", flag=False)
-        pass
+        self.salva_dados.salvar(texto="Monitoramento sem atualização realizado com sucesso", status="SUCCESS", flag=False, dados=dados)
+        
         
         
 

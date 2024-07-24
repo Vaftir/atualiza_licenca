@@ -1,5 +1,6 @@
 
 import re
+import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -62,14 +63,14 @@ class PlataformaAcesso:
             pdv_dias = int(re.search(r'PDV faltam (\d+) dias', licenca_text).group(1))
             
             # Encontra o menor valor entre os dias de "Manager" e "PDV"
-            menor_dias = min(manager_dias, pdv_dias)
+            num_dias = min(manager_dias, pdv_dias)
             
             # Cria um dicionário com os dados extraídos e adiciona à lista 'dados'
             dicionario = {
                 'filial': tds[0].text,     # Extrai o texto da primeira coluna <td>
                 'nome': tds[1].text,       # Extrai o texto da segunda coluna <td>
                 'licenca': licenca_text,    # Mantém a string original da licença
-                'menor_dias': menor_dias   # Armazena o menor número de dias entre "Manager" e "PDV"
+                'num_dias': num_dias   # Armazena o menor número de dias entre "Manager" e "PDV"
             }
             dados.append(dicionario)
         
@@ -119,6 +120,7 @@ class PlataformaAcesso:
         # scrolla ate o final da pagina
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         # espera 5 segundos e scrolla para o topo da pagina
+        time.sleep(5)
         self.driver.execute_script("window.scrollTo(0, 0);")
     
 
