@@ -64,3 +64,34 @@ COLLATE = utf8mb4_0900_ai_ci;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+-- -----------------------------------------------------
+-- TABLE `zanthus`.`filiais`
+-- -----------------------------------------------------
+
+CREATE TABLE `zanthus`.`filiais` (
+  `idfiliais` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `numero_filial` VARCHAR(45) NOT NULL,
+  `nome` VARCHAR(80) NULL,
+  `descricao_manager` VARCHAR(260) NULL,
+  `num_dias` INT NULL,
+  `id_monitoramento` INT NULL,
+  `id_atualizacao` INT NULL,
+  `data_criacao` DATETIME NULL,
+  `filiaiscol` VARCHAR(45) NULL,
+  PRIMARY KEY (`idfiliais`),
+  UNIQUE INDEX `idfiliais_UNIQUE` (`idfiliais` ASC),
+  INDEX `id_monitoramento_idx` (`id_monitoramento` ASC),
+  INDEX `id_atualizacao_idx` (`id_atualizacao` ASC),
+  CONSTRAINT `fk_monitoramento`
+    FOREIGN KEY (`id_monitoramento`)
+    REFERENCES `monitoramento` (`id_monitoramento`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_atualizacao`
+    FOREIGN KEY (`id_atualizacao`)
+    REFERENCES `atualizacao` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+);

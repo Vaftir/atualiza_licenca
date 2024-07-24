@@ -24,11 +24,14 @@ class MonitoraLicenca(AtualizaLicenca):
 
         # Armazena a data e hora da última verificação
         self.data_atualizacao = datetime.datetime.now()
+
+
         return True
     
     def _salva_dados(self, dados):
-        # Salva os dados 
+        self.salva_dados.salvar(texto=dados, status="SUCCESS", flag=False)
         pass
+        
         
 
 #endregion
@@ -49,7 +52,13 @@ class MonitoraLicenca(AtualizaLicenca):
             self.plataforma.clica_em_botao(xpath="/html/body/div[1]/aside/div/section/ul/li[5]/ul/li[4]")
             self.plataforma.scroll()
             dados = self.plataforma.extrai_dados(tr_xpath=tr_xpath, td1_xpath=td1_xpath, tds_xpath=tds_xpath)
-            
+            licenca = self._verifica_licencas(dados)
+            if licenca:
+                self.licenca_atualizada = True
+                self._salva_dados(dados)
+            else:
+                self.licenca_atualizada = False
+                super().atualiza_licenca()
            
         except Exception as e:
             print(f"Erro ao monitorar licença: {e}")

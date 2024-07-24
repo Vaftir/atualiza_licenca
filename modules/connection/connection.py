@@ -1,5 +1,4 @@
 # Importando os módulos necessários
-import os
 import mysql.connector
 from mysql.connector import Error
 
@@ -13,7 +12,6 @@ class Connection:
         self.database = database
         self.user = user
         self.password = password
-
 
     # Método para estabelecer a conexão com o banco de dados
     def connect(self):
@@ -32,9 +30,9 @@ class Connection:
             return False
 
     # Método para executar uma consulta (INSERT, UPDATE, DELETE)
-    def execute_query(self, query):
+    def execute_query(self, query, params=None):
         try:
-            self.cursor.execute(query)  # Executa a consulta
+            self.cursor.execute(query, params)  # Executa a consulta com parâmetros
             self.connection.commit()  # Confirma as alterações no banco de dados
             print("Query executed successfully")  # Mensagem de sucesso
             return True
@@ -43,10 +41,10 @@ class Connection:
             return False
 
     # Método para executar uma consulta de leitura (SELECT)
-    def execute_read_query(self, query):
+    def execute_read_query(self, query, params=None):
         result = None
         try:
-            self.cursor.execute(query)  # Executa a consulta de leitura
+            self.cursor.execute(query, params)  # Executa a consulta de leitura com parâmetros
             result = self.cursor.fetchall()  # Obtém todos os resultados da consulta
             return result  # Retorna os resultados
         except Error as e:
@@ -63,13 +61,3 @@ class Connection:
         else:
             print("No connection to close")
             return False
-
-
-'''
-# Exemplo de uso da classe de conexão
-# Importando a classe de conexão
-from connection import Connection
-
-# Criando uma instância da classe de conexão
-connection = Connection("localhost",
-'''

@@ -1,4 +1,5 @@
 
+import re
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -34,7 +35,7 @@ class PlataformaAcesso:
     def extrai_dados(self, tr_xpath, td1_xpath, tds_xpath):
         # Inicializa uma lista vazia para armazenar os dados extraídos
         dados = []
-
+        
         # Encontra todos os elementos <tr> que correspondem ao XPath fornecido
         trs = self.driver.find_elements(By.XPATH, tr_xpath)
         
@@ -43,27 +44,38 @@ class PlataformaAcesso:
             # Encontra o primeiro <td> dentro do elemento <tr> atual usando o XPath fornecido
             td1 = tr.find_element(By.XPATH, td1_xpath)
             
-            # Verifica se o texto do primeiro <td> é '2'; se for, continua para o próximo <tr>
-            if td1.text == '2':
-                continue
-            else:
-                # Se o texto do primeiro <td> não for '2', encontra todos os <td>s desejados usando o XPath fornecido
-                tds = tr.find_elements(By.XPATH, tds_xpath)
-                
-                # Cria um dicionário com os dados extraídos e adiciona à lista 'dados'
-                dicionario = {
-                    'filial': tds[0].text,
-                    'nome': tds[1].text,
-                    'licenca': tds[2].text
-                }
-                dados.append(dicionario)
+            # Verifica se '10' não está presente no texto do primeiro <td>
+            if '10' not in td1.text:
+                continue  # Se '10' não estiver presente, passa para a próxima iteração
+            
+            # Encontra todos os <td>s desejados dentro do elemento <tr> atual usando o XPath fornecido
+            tds = tr.find_elements(By.XPATH, tds_xpath)
+            
+            # Extrai o texto da terceira coluna <td> que contém informações de licença
+            licenca_text = tds[2].text
+            
+            # Extrai os números da string da licença usando expressões regulares
+            # Extrai o número de dias para "Manager"
+            manager_dias = int(re.search(r'Manager faltam (\d+) dias', licenca_text).group(1))
+            
+            # Extrai o número de dias para "PDV"
+            pdv_dias = int(re.search(r'PDV faltam (\d+) dias', licenca_text).group(1))
+            
+            # Encontra o menor valor entre os dias de "Manager" e "PDV"
+            menor_dias = min(manager_dias, pdv_dias)
+            
+            # Cria um dicionário com os dados extraídos e adiciona à lista 'dados'
+            dicionario = {
+                'filial': tds[0].text,     # Extrai o texto da primeira coluna <td>
+                'nome': tds[1].text,       # Extrai o texto da segunda coluna <td>
+                'licenca': licenca_text,    # Mantém a string original da licença
+                'menor_dias': menor_dias   # Armazena o menor número de dias entre "Manager" e "PDV"
+            }
+            dados.append(dicionario)
         
         # Retorna a lista de dicionários com os dados extraídos
         return dados
-
-    
-  
-
+   
 
     def faz_login(self):
         self.driver.get(self.url)
