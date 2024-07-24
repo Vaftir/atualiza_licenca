@@ -23,7 +23,7 @@ class PlataformaAcesso:
 
 #region Métodos Privados
     def _espera_elemento(self, xpath=None, element_id=None):
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 60)
         if xpath:
             return wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
         elif element_id:
