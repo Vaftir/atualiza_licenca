@@ -39,7 +39,7 @@ class SalvaDados:
         if self.connection:
             self.connection.disconnect()
 
-    def _salvarFilial(self, dados, id_monitoramento, id_atualizacao=None):
+    def _salvarFilial(self, dados, id_monitoramento, id_atualizacao):
         """
         Salva um registro de filial no banco de dados.
         """
@@ -107,7 +107,7 @@ class SalvaDados:
             print(f"Erro ao salvar monitoramento sem atualização: {e}")
             return False
 
-    def _salvarAtualizacao(self, status, texto, dados=None):
+    def _salvarAtualizacao(self, status, texto, dados):
         """
         Salva um registro de atualização no banco de dados.
         """
@@ -144,7 +144,7 @@ class SalvaDados:
         """
         Salva o texto com base no status fornecido e em uma flag indicando o tipo de operação.
         """
-        if flag:
+        if flag == True:
             if status in ["SUCCESS", "ERROR", "WARNING"]:
                 return self._salvarAtualizacao(status, texto, dados)
             else:
@@ -156,7 +156,7 @@ class SalvaDados:
                 id_monitoramento = self._salvarMonitoramentoSemAtualizacao(status=status, descricao=texto, numero_de_dias=menor_dias)
                 if id_monitoramento:
                     for dado in dados:
-                        self._salvarFilial(dados=dado, id_monitoramento=id_monitoramento)
+                        self._salvarFilial(dados=dado, id_monitoramento=id_monitoramento, id_atualizacao=None)
                     return True
                 else:
                     print("Erro ao salvar monitoramento sem atualização.")

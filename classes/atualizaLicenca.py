@@ -51,7 +51,7 @@ class AtualizaLicenca:
 #endregion
 
 #region Métodos Privados
-    def verifica_retorno(self, resultado):
+    def verifica_retorno(self, resultado, dados = None):
         # Dicionário que mapeia mensagens específicas a seus respectivos status
         mensagens = {
             "Para que as atualizações entrem em vigor, é necessário refazer o login": "SUCCESS",
@@ -64,18 +64,18 @@ class AtualizaLicenca:
         for mensagem, status in mensagens.items():
             # Se a mensagem atual está presente no resultado
             if mensagem in resultado:
-                self.salva_dados.salvar(texto=resultado, status=status,flag=True)  # Salva o resultado com o status correspondente
+                self.salva_dados.salvar(texto=resultado, status=status,flag=True, dados= dados)  # Salva o resultado com o status correspondente
                 encontrou_mensagem = True  # Marca que encontramos pelo menos uma mensagem
                 break
 
         # Se nenhuma mensagem conhecida foi encontrada no resultado
         if not encontrou_mensagem:
-            self.salva_dados.salvar(texto=resultado, status="ERROR", flag=True)  # Salva o resultado com o status "ERROR"
+            self.salva_dados.salvar(texto=resultado, status="ERROR", flag=True, dados= dados)  # Salva o resultado com o status "ERROR"
 
 #endregion
 
 #region Métodos Públicos
-    def atualiza_licenca(self):
+    def atualiza_licenca(self, dados = None):
         if not self.plataforma:
             print("Erro ao acessar plataforma")
             return False
@@ -85,9 +85,9 @@ class AtualizaLicenca:
             # self.plataforma.clica_em_botao(xpath="/html/body/div[1]/aside/div/section/ul/li[5]/ul/li[4]")
             self.plataforma.clica_em_botao(button_id="BTN_LICENCA_UPDATE_MANAGER")
             resultado = self.plataforma.trata_popup(element_id="alert_message_internal")
-            self.verifica_retorno(resultado)
+            self.verifica_retorno(resultado, dados)
             self.plataforma.scroll()
-           # self.plataforma.atualiza_licenca()
+            # self.plataforma.atualiza_licenca()
             self.plataforma.fecha_navegador()
             return True
         except Exception as e:

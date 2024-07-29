@@ -58,7 +58,7 @@ class MonitoraLicenca(AtualizaLicenca):
                 self._salva_dados(dados)
             else:
                 self.licenca_atualizada = False
-                super().atualiza_licenca()
+                super().atualiza_licenca(dados = dados)
            
         except Exception as e:
             print(f"Erro ao monitorar licença: {e}")
