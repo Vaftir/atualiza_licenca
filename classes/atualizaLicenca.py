@@ -148,8 +148,6 @@ class AtualizaLicenca:
 
 #region destructors
     def __del__(self):
-        if self.plataforma:
-            self.plataforma.fecha_navegador()
         if self.banco:
             self.banco = None
         if self.config:

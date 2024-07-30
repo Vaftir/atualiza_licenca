@@ -74,6 +74,7 @@ class MonitoraLicenca(AtualizaLicenca):
             if licenca:
                 self.licenca_atualizada = True
                 self._salva_dados(dados)
+                self.plataforma.fecha_navegador()
             else:
                 self.licenca_atualizada = False
                 super().atualiza_licenca(dados = dados)
