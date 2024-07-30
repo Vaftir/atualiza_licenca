@@ -1,3 +1,16 @@
+
+# Classe para encriptar e desencriptar texto
+'''
+Classe para encriptar e desencriptar texto
+Atributos:
+    c_a: int
+    c_b: int
+Métodos:
+    encriptar: str
+    desencriptar: str
+
+'''
+
 class Criptografia:
 
     def __init__(self):

@@ -1,4 +1,4 @@
-
+# Autor: Yago Assis Mendes Faria
 import re
 import time
 from selenium.webdriver.common.by import By
@@ -8,7 +8,32 @@ from selenium import webdriver
 
 
 
+'''
+    Essa claasse é responsavel pelas intereações com o navegador:
+    ela é responsavel por fazer login, clicar em botões, pesquisar na barra de pesquisa
+    e extrair dados de uma tabela
 
+    Atributos:
+        user: str
+        password: str
+        url: str
+        driver: webdriver.Chrome
+    Métodos:
+        _espera_elemento: WebElement
+        extrai_dados: list
+        faz_login: None
+        barra_de_pesquisa: None
+        clica_em_botao: None
+        scroll: None
+        trata_popup: None
+        fecha_navegador: None
+        __del__: None
+    dependencias:
+        selenium
+        
+
+
+'''
 class PlataformaAcesso:
 
 #region Construtores

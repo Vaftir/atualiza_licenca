@@ -1,8 +1,26 @@
-from classes.PlataformaAcesso import PlataformaAcesso
-from classes.SalvaDados import SalvaDados
+# Autor: Yago Assis Mendes Faria
 from classes.atualizaLicenca import AtualizaLicenca
 import datetime
 
+
+'''
+Essa classe é responsável por monitorar a licença de um sistema
+ela depende da classe AtualizaLicenca para atualizar a licença
+
+
+Atributos:
+    licenca_atualizada: bool
+    data_atualizacao: datetime.datetime
+    superclasse: AtualizaLicenca
+metodos:
+    _verifica_licencas: bool
+    _salva_dados: None
+    monitora_licenca: None
+dependencias:
+    AtualizaLicenca
+    datetime
+
+'''
 class MonitoraLicenca(AtualizaLicenca):
     
     def __init__(self):
@@ -30,10 +48,7 @@ class MonitoraLicenca(AtualizaLicenca):
     
     def _salva_dados(self, dados):
         self.salva_dados.salvar(texto="Monitoramento sem atualização realizado com sucesso", status="SUCCESS", flag=False, dados=dados)
-        
-        
-        
-
+               
 #endregion
 
 #region Métodos Públicos

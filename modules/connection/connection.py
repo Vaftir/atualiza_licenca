@@ -1,6 +1,29 @@
+# Autor: Yago Assis Mendes Faria
 import mysql.connector
 from mysql.connector import Error
 
+'''
+ Modulo de conexão com o banco de dados MySQL
+
+    Atributos:
+        host: str
+        database: str
+        user: str
+        password: str
+        connection: mysql.connector.connection.MySQLConnection
+        cursor: mysql.connector.cursor.MySQLCursor
+    Métodos:
+        connect: bool
+        execute_query: bool
+        execute_read_query: list
+        disconnect: bool
+        __enter__: Connection
+        __exit__: None
+    dependencias:
+        mysql.connector
+        mysql.connector.Error
+    
+'''
 class Connection:
     def __init__(self, host, database, user, password):
         self.connection = None
@@ -11,6 +34,7 @@ class Connection:
         self.password = password
 
     def connect(self):
+        # Conecta ao banco de dados
         try:
             self.connection = mysql.connector.connect(
                 host=self.host,
@@ -26,6 +50,7 @@ class Connection:
             return False
 
     def execute_query(self, query, params=None):
+        # Executa uma query no banco de dados
         try:
             self.cursor.execute(query, params)
             self.connection.commit()
@@ -36,6 +61,7 @@ class Connection:
             return False
 
     def execute_read_query(self, query, params=None):
+        # Executa uma query de leitura no banco de dados
         result = None
         try:
             self.cursor.execute(query, params)
@@ -46,6 +72,7 @@ class Connection:
             return result
 
     def disconnect(self):
+        # Desconecta do banco de dados
         if self.connection is not None and self.connection.is_connected():
             self.cursor.close()
             self.connection.close()
@@ -56,12 +83,14 @@ class Connection:
             return False
 
     def __enter__(self):
+        # Entra no contexto da classe
         if self.connect():
             return self
         else:
             raise Exception("Failed to connect to the database")
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        # Sai do contexto da classe
         self.disconnect()
 
 

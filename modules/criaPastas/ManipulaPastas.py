@@ -1,3 +1,4 @@
+# Autor: Yago Assis Mendes Faria
 import os
 import glob
 

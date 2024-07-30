@@ -4,7 +4,33 @@ from modules.config.ConfigHandler import ConfigHandler
 from modules.criptografia.encripta import Criptografia
 
 import time
+"""
+Essa classe é responsável por atualizar a licença, ela depende das classes PlataformaAcesso e SalvaDados
+alem de depender ds modulos ConfigHandler e Criptografia
+Atributos:
+    config: ConfigHandler
+    criptografia: Criptografia
+    banco: dict
+    user: dict
+    salva_dados: SalvaDados
+    plataforma: PlataformaAcesso
+Métodos:
+    _load_config: ConfigHandler
+    _decrypt_password: str
+    _setup_banco: dict
+    _setup_user: dict
+    _setup_plataforma: PlataformaAcesso
+    verifica_retorno: None
+    atualiza_licenca: bool
+    __del__: None
+dependencias:
+    ConfigHandler
+    Criptografia
+    PlataformaAcesso
+    SalvaDados
+    time
 
+"""
 class AtualizaLicenca:
 
 #region Construtores
@@ -17,6 +43,7 @@ class AtualizaLicenca:
         self.plataforma = self._setup_plataforma() if self.user else None
 
     def _load_config(self, config_path):
+        # Carrega as configurações do arquivo de configuração
         try:
             return ConfigHandler(config_path)
         except Exception as e:
@@ -24,9 +51,11 @@ class AtualizaLicenca:
             return None
 
     def _decrypt_password(self, password):
+        # Desencripta a senha se ela existir
         return self.criptografia.desencriptar(password) if password else None
 
     def _setup_banco(self):
+        # Obtém os dados do banco de dados do arquivo de configuração
         banco = self.config.get_data("banco de dados")
         if not banco or "password" not in banco:
             print("Erro ao obter dados do banco de dados")
@@ -35,6 +64,7 @@ class AtualizaLicenca:
         return banco
 
     def _setup_user(self):
+        # Obtém os dados do usuário do arquivo de configuração
         user = self.config.get_data("zantus_user")
         if not user or "password" not in user:
             print("Erro ao obter dados do usuário")
@@ -43,6 +73,7 @@ class AtualizaLicenca:
         return user
 
     def _setup_plataforma(self):
+        # Obtém a URL da plataforma de acesso do arquivo de configuração
         site = self.config.get_data("url_manager")
         if not site or "url" not in site:
             print("Erro ao obter URL do site")
@@ -52,6 +83,11 @@ class AtualizaLicenca:
 
 #region Métodos Privados
     def verifica_retorno(self, resultado, dados = None):
+
+        '''
+        Método que verifica o retorno da atualização da licença e salva os dados no banco
+
+        '''
         # Dicionário que mapeia mensagens específicas a seus respectivos status
         mensagens = {
             "Para que as atualizações entrem em vigor, é necessário refazer o login": "SUCCESS",
@@ -76,6 +112,10 @@ class AtualizaLicenca:
 
 #region Métodos Públicos
     def atualiza_licenca(self, dados = None):
+        '''
+        Método que realiza a atualização da licença
+        Retorna True se a atualização foi bem-sucedida, False caso contrário
+        '''
         if not self.plataforma:
             print("Erro ao acessar plataforma")
             return False

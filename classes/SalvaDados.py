@@ -1,3 +1,4 @@
+# Autor: Yago Assis Mendes Faria
 import time
 from modules.connection.connection import Connection
 
@@ -8,9 +9,22 @@ class SalvaDados:
     Esta classe gerencia a conexão com o banco de dados e fornece métodos para salvar diferentes tipos de registros.
     
     Atributos:
-    -----------
+   
     connection : Connection
         Instância da conexão com o banco de dados.
+    -------------
+    dependências:
+        Connection : módulo connection.connection
+        time : módulo time
+    methods:
+        __init__ : None
+        __exit__ : None
+        _salvarFilial : bool
+        _salvarMonitoramento : bool
+        _salvarMonitoramentoSemAtualizacao : bool
+        _salvarAtualizacao : bool
+        salvar
+
     """
     
     def __init__(self, banco):

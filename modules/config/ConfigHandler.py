@@ -1,7 +1,22 @@
+# Autor: Yago Assis Mendes Faria
 import json
 
-
-# essa classe depende da Classe Encripta
+'''
+ Esta classe é responsável por manipular um arquivo de configuração JSON.
+    Ela permite carregar, salvar e manipular valores de configuração.
+    Atributos:
+        file_path: str
+        config: dict
+    Métodos:
+        load_config: dict
+        get_data: dict
+        save_config: None
+        set_config_value: None
+        delete_config_value: None
+    dependencias:
+        json
+    
+'''
 class ConfigHandler:
 
     # region Construtores
@@ -33,6 +48,7 @@ class ConfigHandler:
 
 
     def get_data(self, key):
+        # Obtém um valor da configuração
         if self.config is None:
             return None
         try:
