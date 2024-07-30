@@ -1,22 +1,19 @@
 # Autor: Yago Assis Mendes Faria
-from classes.atualizaLicenca import AtualizaLicenca
 from classes.monitoraLicenca import MonitoraLicenca
 
 '''
 Classe Controller responsável por controlar o fluxo do programa
 Atributos:
-    atualiza_licenca: AtualizaLicenca
+
     monitora_licenca: MonitoraLicenca
 Métodos:
     run: bool
 dependencias:
-    AtualizaLicenca
     MonitoraLicenca
 '''
 class Controller:
 
     def __init__(self):
-        self.atualiza_licenca = AtualizaLicenca()  # Instância da classe AtualizaLicenca
         self.monitora_licenca = MonitoraLicenca()
 
     def run(self):
