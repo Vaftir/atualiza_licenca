@@ -35,12 +35,15 @@ class AtualizaLicenca:
 
 #region Construtores
     def __init__(self):
-        self.config = self._load_config("config/configHomolog.json")
+        self.config = self._load_config("config/config.json")
         self.criptografia = Criptografia()
         self.banco = self._setup_banco() if self.config else None
         self.user = self._setup_user() if self.config else None
         self.salva_dados = SalvaDados(self.banco) if self.banco else None
         self.plataforma = self._setup_plataforma() if self.user else None
+
+    
+
 
     def _load_config(self, config_path):
         # Carrega as configurações do arquivo de configuração
@@ -79,6 +82,13 @@ class AtualizaLicenca:
             print("Erro ao obter URL do site")
             return None
         return PlataformaAcesso(self.user["username"], self.user["password"], site["url"])
+    
+    def _pega_numaronumero_de_dias(self, dados):
+        dias = self.config.get_data("numero_minimo_de_dias")
+        if not dias:
+            print("Erro ao obter o número mínimo de dias")
+            return None
+        return dias
 #endregion
 
 #region Métodos Privados

@@ -1,5 +1,6 @@
 # Autor: Yago Assis Mendes Faria
 from classes.atualizaLicenca import AtualizaLicenca
+from modules.config.ConfigHandler import ConfigHandler
 import datetime
 
 
@@ -25,17 +26,19 @@ class MonitoraLicenca(AtualizaLicenca):
     
     def __init__(self):
         super().__init__()  # Chama o construtor da classe pai (AtualizaLicenca)
-        
+        self.dias = self._pega_numaronumero_de_dias(self.config)
         self.licenca_atualizada = False
         self.data_atualizacao = datetime.datetime.now()
+        
 
 #region Métodos Privados
+ 
     def _verifica_licencas(self, dados):
         # Método para verificar se há alguma licença com 16 dias nos dados extraídos
         # Itera sobre cada dicionário de dados passado como argumento
         for dado in dados:
             # Verifica se a chave 'licenca' no dicionário atual é igual a '16 dias'
-            if dado['num_dias'] <= 16:
+            if dado['num_dias'] <= self.dias:
                 # Se encontrar uma licença com 16 dias, marca a flag licenca_atualizada como False e retorna
                 
                 return False
